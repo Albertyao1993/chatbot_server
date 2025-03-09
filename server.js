@@ -1,13 +1,14 @@
 import express from "express";
-
+import GoogleChat from "./services/googleChat.js";
+import router from "./routers/index.js";
 export const server = () => {
   const app = express();
 
-  app.get("/", (req, res) => {
-    res.send("Hello World");
-  });
+  app.use(express.json());
 
-  const PORT = process.env.PORT || 3000;
+  app.use("/", router);
+
+  const PORT = 3001;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
