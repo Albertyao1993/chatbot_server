@@ -1,22 +1,15 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+// 加载环境变量
+dotenv.config();
 
 export const connectDB = async () => {
   try {
-    const conn = await mongoose.connect("mongodb://localhost:27017/chatbot");
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    const db = mongoose.connection.db;
-    try {
-      await db.collection("users").insertOne({
-        name: "John Doe",
-        email: "john.doe@example.com",
-        password: "password",
-      });
-      console.log("User created");
-    } catch (error) {
-      console.log(error);
-    }
+    const conn = await mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/chatbot");
+    console.log(`MongoDB连接成功: ${conn.connection.host}`);
   } catch (error) {
-    console.log(error);
+    console.error(`MongoDB连接失败: ${error.message}`);
     process.exit(1);
   }
 };
